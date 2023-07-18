@@ -1,9 +1,11 @@
 import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 export default class Scene {
     scene: THREE.Scene;
     renderer: THREE.WebGLRenderer;
-    camera: THREE.PerspectiveCamera
+    camera: THREE.PerspectiveCamera;
+    controls: OrbitControls;
 
     constructor(canvasRef: HTMLCanvasElement) {
         this.scene = new THREE.Scene();
@@ -14,6 +16,7 @@ export default class Scene {
         });
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        this.controls = new OrbitControls(this.camera, this.renderer.domElement);
         this.update();
     }
 
