@@ -1,5 +1,6 @@
 import './App.css'
 import MainScene from './components/MainScene'
+import Menu from './components/Menu'
 
 function App() {
   return (
@@ -8,6 +9,7 @@ function App() {
         <div className='w-full h-full overflow-hidden'>
           <MainScene />
         </div>
+        <Menu />
       </div>
     </div>
   )
