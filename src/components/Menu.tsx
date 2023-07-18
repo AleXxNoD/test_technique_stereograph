@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { LuMenu } from 'react-icons/lu';
 import { MdOutlineClose } from 'react-icons/md';
+import { useModels } from "../hooks/useModels";
+import TreeView from "./TreeView";
 
 const Menu = () => {
     const [clicked, setClicked] = useState(true);
+    const { addModel, clearModels } = useModels();
 
     return (
-        <div className={`fixed top-4 right-4 bg-slate-500 ${clicked ? 'w-10 h-10' : 'w-72 min-h-72'} transition-all pb-10`}>
+        <div className={`fixed top-4 right-4 bg-slate-500 ${clicked ? 'w-10 h-10' : 'w-80 min-h-72'} transition-all pb-10 px-2`}>
             {!clicked ? (
                 
                 // opened menu
@@ -17,14 +20,18 @@ const Menu = () => {
                             <MdOutlineClose size={25} />
                         </button>
                     </div>
-                    <div className="w-full flex flex-col justify-start items-center p-4 gap-2 bg-slate-600">
+                    <div className="w-full flex flex-col justify-start items-start p-4 gap-4 bg-slate-600">
                         <label>Ajouter un objet:</label>
                         <input type="file" accept=".gltf" />
-                        <button className="bg-black/75 px-16 py-2 hover:bg-black/50 transition-colors">Ajouter</button>
+                        <button onClick={() => addModel({ name: 'newModel', url: 'url' })}
+                            className="bg-black/75 w-full py-2 hover:bg-black/50 transition-colors">Ajouter</button>
                     </div>
-                    <div className="w-full flex flex-col justify-start items-center p-4 gap-2 bg-slate-600">
-                        <button className="bg-black/75 px-16 py-2 hover:bg-black/50 transition-colors">Effacer la scène</button>
+                    <div className="w-full flex flex-col justify-start items-start p-4 gap-2 bg-slate-600">
+                        <label>Effacer tous les objets:</label>
+                        <button onClick={() => clearModels()}
+                            className="bg-black/75 w-full py-2 hover:bg-black/50 transition-colors">Effacer la scène</button>
                     </div>
+                    <TreeView className="w-full bg-slate-600 p-4" />
                 </div>
             ) : (
                     
