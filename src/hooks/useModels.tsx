@@ -21,12 +21,10 @@ export const useModels = () => {
     const { models, setModels } = useContext(ModelsContext);
 
     const addModel = (model: IModel) => {
-        console.log('add model');
         setModels([...models, model]);
     };
 
     const clearModels = () => {
-        console.log('clear all models');
         setModels([]);
     };
 

@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { GLTF, GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { IModel } from '../types/IModel';
 
 export default class Scene {
     scene: THREE.Scene;
@@ -23,5 +25,12 @@ export default class Scene {
     update() {
         this.renderer.render(this.scene, this.camera);
         requestAnimationFrame(this.update.bind(this));
+    }
+
+    addModel(model: IModel) {
+        const loader = new GLTFLoader();
+        loader.load(model.url, (gltf: GLTF) => { this.scene.add(gltf.scene) }, undefined, (err) => {
+            console.log(err);
+        })
     }
 }

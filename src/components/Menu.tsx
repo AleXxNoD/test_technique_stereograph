@@ -6,7 +6,18 @@ import TreeView from "./TreeView";
 
 const Menu = () => {
     const [clicked, setClicked] = useState(true);
+    const [newModel, setNewModel] = useState('');
     const { addModel, clearModels } = useModels();
+
+    const handleAddModel = () => {
+        const newModelTmp = newModel.split('\\');
+        const name = newModelTmp[newModelTmp.length - 1];
+
+        addModel({
+            name: name.split('.')[0],
+            url: `/public/${name}`
+        });
+    };
 
     return (
         <div className={`fixed top-4 right-4 bg-slate-500 ${clicked ? 'w-10 h-10' : 'w-80 min-h-72 pb-10 px-2'} transition-all`}>
@@ -24,13 +35,13 @@ const Menu = () => {
 
                     <MenuElement>
                         <MenuElementLabel>Ajouter un objet:</MenuElementLabel>
-                        <input type="file" accept=".gltf" />
-                        <MenuElementButton callback={() => addModel({ name: 'newModel', url: 'url' })}>Ajouter</MenuElementButton>
+                        <input type="file" accept=".gltf" onChange={(e) => setNewModel(e.target.value)}  />
+                        <MenuElementButton callback={handleAddModel}>Ajouter</MenuElementButton>
                     </MenuElement>
 
                     <MenuElement>
                         <MenuElementLabel>Effacer tous les objets:</MenuElementLabel>
-                        <MenuElementButton callback={() => clearModels()}>Effacer la scène</MenuElementButton>
+                        <MenuElementButton callback={clearModels}>Effacer la scène</MenuElementButton>
                     </MenuElement>
                     
                     <MenuElement>
