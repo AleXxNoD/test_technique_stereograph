@@ -3,26 +3,35 @@ import { LuMenu } from 'react-icons/lu';
 import { MdOutlineClose } from 'react-icons/md';
 import { useModels } from "../hooks/useModels";
 import TreeView from "./TreeView";
+import { useScene } from "../hooks/useScene";
 
 const Menu = () => {
+    const { addSceneModel } = useScene();
     const [clicked, setClicked] = useState(true);
     const [newModel, setNewModel] = useState('');
     const { addModel, clearModels } = useModels();
 
     const handleAddModel = () => {
-        const newModelTmp = newModel.split('\\');
-        const name = newModelTmp[newModelTmp.length - 1];
+        if (newModel.length > 0) {
+            const newModelTmp = newModel.split('\\');
+            const name = newModelTmp[newModelTmp.length - 1];
 
-        addModel({
-            name: name.split('.')[0],
-            url: `/public/${name}`
-        });
+            addSceneModel({
+                name: name.split('.')[0],
+                url: `/test/scene.gltf`
+            })
+
+            addModel({
+                name: name.split('.')[0],
+                url: `/public/${name}`
+            });
+        }
     };
 
     return (
         <div className={`fixed top-4 right-4 bg-slate-500 ${clicked ? 'w-10 h-10' : 'w-80 min-h-72 pb-10 px-2'} transition-all`}>
             {!clicked ? (
-                
+
                 // opened menu
                 <MenuContent>
 
@@ -35,7 +44,7 @@ const Menu = () => {
 
                     <MenuElement>
                         <MenuElementLabel>Ajouter un objet:</MenuElementLabel>
-                        <input type="file" accept=".gltf" onChange={(e) => setNewModel(e.target.value)}  />
+                        <input type="file" accept=".gltf" onChange={(e) => setNewModel(e.target.value)} />
                         <MenuElementButton callback={handleAddModel}>Ajouter</MenuElementButton>
                     </MenuElement>
 
@@ -43,7 +52,7 @@ const Menu = () => {
                         <MenuElementLabel>Effacer tous les objets:</MenuElementLabel>
                         <MenuElementButton callback={clearModels}>Effacer la scène</MenuElementButton>
                     </MenuElement>
-                    
+
                     <MenuElement>
                         <MenuElementLabel>Liste des modèles:</MenuElementLabel>
                         <TreeView className="w-full" />
@@ -51,7 +60,7 @@ const Menu = () => {
 
                 </MenuContent>
             ) : (
-                    
+
                 // closed menu
                 <button onClick={() => setClicked(false)}
                     className='w-full h-full flex justify-center items-center text-slate-200 hover:text-white'>

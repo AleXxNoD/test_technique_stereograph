@@ -1,16 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react';
-import Scene from '../scenes/main';
+import { useEffect, useRef } from 'react';
+import { useScene } from '../hooks/useScene';
 
 const MainScene = () => {
-    const canvasRef = useRef<HTMLCanvasElement>(null);
-    const [scene, setScene] = useState<Scene|null>(null);
+    const { canvasRef, setCanvas } = useScene();
 
     useEffect(() => {
         if (!canvasRef.current)
             return
-        
-        setScene(new Scene(canvasRef.current))
-    }, []);
+
+        setCanvas()
+    }, [canvasRef.current]);
 
     return (
         <div>
